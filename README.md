@@ -6,4 +6,6 @@ con diversos kenguajes de programacion
 - Julio Emmanuel Romero Beltrán @JulioRomeroBeltran
 - Eva Estefani Diaz Beltrán @EstefanDiaz
 - Luis Antonio Burgos Rojas
-- Jesus Javier Camacho Castro
+- Jesus Javier Camacho Castro @JavierCamacho9703
+
+xd
