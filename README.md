@@ -7,3 +7,5 @@ con diversos kenguajes de programacion
 - Eva Estefani Diaz Beltrán @EstefanDiaz
 - Luis Antonio Burgos Rojas
 - Jesus Javier Camacho Castro
+uwu
+jhj
