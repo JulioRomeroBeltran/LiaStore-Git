@@ -3,9 +3,33 @@ Ejercicio para compartir codigo fuente entre colaboradores,
 con diversos kenguajes de programacion
 
 ## Integrantes
-- Julio Emmanuel Romero Beltrán @JulioRomeroBeltran
-- Eva Estefani Diaz Beltrán @EstefanDiaz
-- Luis Antonio Burgos Rojas
-- Jesus Javier Camacho Castro @JavierCamacho9703
+- Julio Emmanuel Romero Beltrán [__@JulioRomeroBeltran__][1]
+- Eva Estefani Diaz Beltrán [__@EstefanDiaz__][2]
+- Luis Antonio Burgos Rojas [__@LuisBurgos9751__][3]
+- Jesus Javier Camacho Castro [__@JavierCamacho9703__][4]
 
-xd
+[1]: https://github.com/JulioRomeroBeltran
+[2]: https://github.com/EstefanDiaz
+[3]: https://github.com/LuisBurgos9751
+[4]: https://github.com/JavierCamacho9703
+
+
+## Elementos necesarios para que funcione el programa
+__-PhP__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl
+
+__-Composer__
+
+__-Node.js/npm__
+
+__-MySQL__
+
+
+ ## Base de datos
+ Solo necesitas ejecutar el comando 
+ __php artisan migrate__
+ en la terminal para crear las tablas correspondientes
+
+-Configura el archivo .env para que se conecte a tu base de datos.
+
+
+
