@@ -26,7 +26,7 @@ __-MySQL__
 
  ## Base de datos
  Solo necesitas ejecutar el comando 
- <span style="font-size=15px; font-weight: bold;">php artisan migrate</span>
+````php artisan migrate````
  en la terminal para crear las tablas correspondientes
 
 -Configura el archivo .env para que se conecte a tu base de datos.
