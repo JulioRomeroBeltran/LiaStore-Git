@@ -1,5 +1,5 @@
 # LiaStore
-Este es nuestra pagina web LiaStore que creamos utilizando el framework de Laravel.
+Este es nuestra pagina web LiaStore que creamos utilizando el framework de Laravel y diseñamos con Bootstrap.
 
 ## Integrantes
 - Julio Emmanuel Romero Beltrán [__@JulioRomeroBeltran__][1]
