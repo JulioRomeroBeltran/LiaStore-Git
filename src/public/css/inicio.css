@@ -1,0 +1,35 @@
+/* styles.css */
+
+body {
+    background-color: #f0f0f0;
+}
+
+.custom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.custom-card {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.custom-card-title {
+    font-size: 24px;
+}
+
+.custom-card-text {
+    font-size: 16px;
+}
+
+.custom-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-text-center {
+    text-align: center;
+}
+
+
