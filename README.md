@@ -1,6 +1,6 @@
 # Proyecto de Git
 Ejercicio para compartir codigo fuente entre colaboradores,
-con diversos kenguajes de programacion
+con diversos lenguajes de programacion
 
 ## Integrantes
 - Julio Emmanuel Romero Beltrán [__@JulioRomeroBeltran__][1]
@@ -26,7 +26,7 @@ __-MySQL__
 
  ## Base de datos
  Solo necesitas ejecutar el comando 
- __php artisan migrate__
+ <span style="font-size=1.2em; font-weight: bold">php artisan migrate</span>
  en la terminal para crear las tablas correspondientes
 
 -Configura el archivo .env para que se conecte a tu base de datos.
