@@ -16,9 +16,12 @@ Este es nuestra pagina web LiaStore que creamos utilizando el framework de Larav
 ## Elementos necesarios para que funcione el programa
 __-PhP__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl
 
-__-Composer__
+__-Composer__ // Para usar ````composer install````
 
-__-Node.js/npm__
+
+__-Node.js/npm__ 
+
+__-Vite__ // Si no lo tiene puede usar ````npm install --save-dev vite````
 
 __-MySQL__
 
