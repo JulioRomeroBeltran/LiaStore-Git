@@ -33,7 +33,7 @@ en la terminal creara las tablas correspondientes pero usted tendra que llenarla
  
 -Dentro de la carpeta docker-bdd dejare los archivos correspondientes para ya pasarle una base de datos con información dentro.
 
--Configura el archivo .env para que se conecte a tu base de datos.
+-Configura el archivo .env para que se conecte a tu base de datos. Deberia ser la base de datos liastoredb4 contraseña liastoredb.
 
 
 
