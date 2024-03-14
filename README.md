@@ -27,9 +27,11 @@ __-MySQL__
 
 
  ## Base de datos
- Solo necesitas ejecutar el comando 
+ Si ejecutas el comando 
 ````php artisan migrate````
- en la terminal para crear las tablas correspondientes
+en la terminal creara las tablas correspondientes pero usted tendra que llenarlas.
+ 
+-Dentro de la carpeta docker-bdd dejare los archivos correspondientes para ya pasarle una base de datos con información dentro.
 
 -Configura el archivo .env para que se conecte a tu base de datos.
 
