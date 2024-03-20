@@ -41,4 +41,4 @@ en la terminal creara las tablas correspondientes pero usted tendra que llenarla
 
 -Y en otra terminal el comando. ````npm run dev````
 
--NOTA: Si no se ven las imagenes tiene que ejecutar este comando. ````php artisan storage:link```
+-NOTA: Si no se ven las imagenes tiene que ejecutar este comando. ````php artisan storage:link````
