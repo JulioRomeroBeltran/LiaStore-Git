@@ -36,4 +36,6 @@ en la terminal creara las tablas correspondientes pero usted tendra que llenarla
 -Configura el archivo .env para que se conecte a tu base de datos. Deberia ser la base de datos liastoredb4 contraseña liastoredb.
 
 
-
+## Como ejecutar la pagina
+-Ejecute el comando ````php artisan serve````
+-Y en otra terminal el comando ````npm run dev````
