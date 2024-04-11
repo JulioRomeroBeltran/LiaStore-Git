@@ -14,7 +14,7 @@ Este es nuestra pagina web LiaStore que creamos utilizando el framework de Larav
 
 
 ## Elementos necesarios para que funcione el programa
-__-PhP__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl
+__-PhP__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl, la version de PhP viene en el composer.json
 
 __-Composer__ // Para usar ````composer install````
 
@@ -23,7 +23,7 @@ __-Node.js/npm__
 
 __-Vite__ // Si no lo tiene puede usar ````npm install --save-dev vite````
 
-__-MySQL__
+__-MySQL__ // La version de MySQL viene en el docker-composer.yml
 
 
  ## Base de datos
@@ -31,7 +31,7 @@ __-MySQL__
 ````php artisan migrate````
 en la terminal creara las tablas correspondientes pero usted tendra que llenarlas.
  
--Dentro de la carpeta docker-bdd dejare los archivos correspondientes para ya pasarle una base de datos con información dentro.
+-Dentro de la carpeta docker-bdd dejare los archivos correspondientes para ya pasarle una base de datos con información dentro, viene el docker-composer.yml y el volumen.
 
 -Configura el archivo .env para que se conecte a tu base de datos. Deberia ser la base de datos liastoredb4 contraseña liastoredb.
 
