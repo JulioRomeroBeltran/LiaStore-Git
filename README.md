@@ -26,13 +26,13 @@ __-MySQL 8.1.0__
 
 
  ## Base de datos
-<span style="color:red">IMPORTANTE, SE ESTA USANDO DOCKER PARA USAR LA BASE DE DATOS</span>
+**IMPORTANTE, SE ESTA USANDO DOCKER PARA USAR LA BASE DE DATOS**
  
-Dentro de la carpeta **#docker-bdd#** dejaré los archivos correspondientes para ya pasarle una base de datos con información dentro, viene el docker-compose.yml y el volumen.
+Dentro de la carpeta **docker-bdd** dejaré los archivos correspondientes para ya pasarle una base de datos con información dentro, viene el docker-compose.yml y el volumen.
 
 -El docker-compose.yml es para montar el contenedor.
 
--El mysql_liastore.tar.zst es el volumen para obtener todos los datos de la base de datos, para ello es necesario tener la extensión **#Volumes Backup & Share#** en la aplicacion de **#Docker Desktop#**
+-El mysql_liastore.tar.zst es el volumen para obtener todos los datos de la base de datos, para ello es necesario tener la extensión **Volumes Backup & Share** en la aplicacion de **Docker Desktop**
 
 -Configura el archivo .env para que se conecte a tu base de datos. Deberia ser la base de datos liastoredb4 contraseña liastoredb.
 
