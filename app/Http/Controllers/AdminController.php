@@ -9,6 +9,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Color;
+use App\Models\Estilo;
+use App\Models\TipoPrenda;
+use App\Models\Talla;
 
 
 
@@ -42,7 +46,12 @@ class AdminController extends Controller
 
     public function createProduct()
     {
-        return view('admin.products.create');
+        $colores = Color::all();
+        $estilos = Estilo::all();
+        $tipos_prenda = TipoPrenda::all();
+        $tallas = Talla::all();
+
+        return view('admin.products.create', compact('colores', 'estilos', 'tipos_prenda', 'tallas'));
     }
 
 
@@ -56,6 +65,12 @@ class AdminController extends Controller
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tallas' => 'nullable|array',
             'tallas.*' => ['required', Rule::in([1, 2, 3])],
+            'colores' => 'nullable|array',
+            'colores.*' => ['required', Rule::exists('colores', 'id')],
+            'estilos' => 'nullable|array',
+            'estilos.*' => ['required', Rule::exists('estilos', 'id')],
+            'tipos_prenda' => 'nullable|array',
+            'tipos_prenda.*' => ['required', Rule::exists('tipos_prenda', 'id')],
         ]);
 
 
@@ -69,13 +84,12 @@ class AdminController extends Controller
             'imagen' => $imagenPath,
         ]);
 
-        if ($request->has('tallas')) {
-            $producto->tallas()->sync($request->tallas);
-        }
+        $this->syncRelations($producto, $request);
+
 
         Inventario::create([
             'producto_id' => $producto->id,
-            'cantidad_disponible' => 0, 
+            'cantidad_disponible' => 0,
         ]);
 
         return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente.');
@@ -100,12 +114,17 @@ class AdminController extends Controller
     public function editProduct($id)
     {
         $producto = Producto::find($id);
+        $colores = Color::all();
+        $estilos = Estilo::all();
+        $tipos_prenda = TipoPrenda::all();
+        $tallas = Talla::all();
 
         if (!$producto) {
             return redirect()->route('admin.products.index')->with('error', 'Producto no encontrado.');
         }
 
-        return view('admin.products.product-edit', compact('producto'));
+
+        return view('admin.products.product-edit', compact('producto', 'colores', 'estilos', 'tipos_prenda', 'tallas'));
     }
 
     public function updateProduct(Request $request, $id)
@@ -116,7 +135,13 @@ class AdminController extends Controller
             'precio' => 'required|numeric',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tallas' => 'nullable|array',
-            'tallas.*' => ['required', Rule::exists('tallas', 'id')], 
+            'tallas.*' => ['required', Rule::in([1, 2, 3])],
+            'colores' => 'nullable|array',
+            'colores.*' => ['required', Rule::exists('colores', 'id')],
+            'estilos' => 'nullable|array',
+            'estilos.*' => ['required', Rule::exists('estilos', 'id')],
+            'tipos_prenda' => 'nullable|array',
+            'tipos_prenda.*' => ['required', Rule::exists('tipos_prenda', 'id')],
         ]);
 
         $producto = Producto::find($id);
@@ -134,9 +159,8 @@ class AdminController extends Controller
             'precio' => $request->precio,
         ]);
 
-        if ($request->has('tallas')) {
-            $producto->tallas()->sync($request->tallas);
-        }
+        $this->syncRelations($producto, $request);
+
 
         return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente.');
     }
@@ -160,42 +184,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.products.index')->with('success', 'Cantidad disponible actualizada.');
     }
-    public function catalogo(Request $request)
-    {
-        $query = Producto::query();
-
-        if ($request->has('availability')) {
-            if ($request->input('availability') === 'available') {
-                $query->whereHas('inventario', function ($query) {
-                    $query->where('cantidad_disponible', '>', 0);
-                });
-            } elseif ($request->input('availability') === 'unavailable') {
-                $query->whereHas('inventario', function ($query) {
-                    $query->where('cantidad_disponible', '=', 0);
-                });
-            }
-        }
-
-        if ($request->has('price')) {
-            if ($request->input('price') === 'low_to_high') {
-                $query->orderBy('precio', 'asc');
-            } elseif ($request->input('price') === 'high_to_low') {
-                $query->orderBy('precio', 'desc');
-            }
-        }
-
-        if ($request->has('alphabetical')) {
-            if ($request->input('alphabetical') === 'a_to_z') {
-                $query->orderBy('nombre', 'asc');
-            } elseif ($request->input('alphabetical') === 'z_to_a') {
-                $query->orderBy('nombre', 'desc');
-            }
-        }
-
-        $filteredProducts = $query->get();
-
-        return view('catalogo', compact('filteredProducts'));
-    }
+   
 
     public function asignarAdmin(Request $request)
     {
@@ -212,5 +201,16 @@ class AdminController extends Controller
     public function mostrarFormularioAsignarAdmin()
     {
         return view('admin.asignar-admin');
+    }
+
+    private function syncRelations($producto, $request)
+    {
+        $relaciones = ['tallas', 'colores', 'estilos', 'tipos_prenda'];
+
+        foreach ($relaciones as $relacion) {
+            if ($request->has($relacion)) {
+                $producto->{$relacion}()->sync($request->{$relacion});
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ Este es nuestra pagina web LiaStore que creamos utilizando el framework de **#La
 
 
 ## Elementos necesarios para que funcione el programa
-__-PhP 8.2.11__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl, la version de PhP viene en el composer.json
+__-PhP 8.2.11__ // si te da error "error Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()"  debes quitar un ; en el php.ini, en donde dice ;extension=openssl, la version de PhP viene en el composer.json, tambien si le da error lo de recuperar contraseña ocupa habilitar la extension ;extension=mbstring.
 
 __-Composer__ // Para usar ````composer install````
 
