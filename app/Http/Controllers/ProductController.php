@@ -7,17 +7,42 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use App\Models\Estilo;
+use App\Models\Color;
+use App\Models\TipoPrenda;
 
 class ProductController extends Controller
 {
-    // ProductController.php
 
     public function catalogo(Request $request)
     {
+        $colores = Color::all();
+        $estilos = Estilo::all();
+        $tipos_prenda = TipoPrenda::all();
+
         $query = Producto::query();
 
-        // Filter by availability
+        if ($request->has('sorting')) {
+            $sorting = $request->input('sorting');
+            switch ($sorting) {
+                case 'price_asc':
+                    $query->orderBy('precio', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('precio', 'desc');
+                    break;
+                case 'name_asc':
+                    $query->orderBy('nombre', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('nombre', 'desc');
+                    break;
+                default:
+                    // Default sorting or do nothing
+                    break;
+            }
+        }
+
         if ($request->has('availability')) {
             if ($request->input('availability') === 'available') {
                 $query->whereHas('inventarios', function ($query) {
@@ -30,30 +55,35 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->has('price')) {
-            if ($request->input('price') === 'low_to_high') {
-                $query->orderBy('precio', 'asc');
-            } elseif ($request->input('price') === 'high_to_low') {
-                $query->orderBy('precio', 'desc');
-            }
+        if ($request->filled('color')) {
+            $query->whereHas('colores', function ($query) use ($request) {
+                $query->where('colores.id', $request->color);
+            });
         }
-
-        if ($request->has('alphabetical')) {
-            if ($request->input('alphabetical') === 'a_to_z') {
-                $query->orderBy('nombre', 'asc');
-            } elseif ($request->input('alphabetical') === 'z_to_a') {
-                $query->orderBy('nombre', 'desc');
-            }
+        
+        if ($request->filled('style')) {
+            $query->whereHas('estilos', function ($query) use ($request) {
+                $query->where('estilos.id', $request->style);
+            });
+        }
+        
+        if ($request->filled('type')) {
+            $query->whereHas('tipos_prenda', function ($query) use ($request) {
+                $query->where('tipos_prenda.id', $request->type);
+            });
         }
 
         if ($request->has('search')) {
             $query->where('nombre', 'like', '%' . $request->input('search') . '%');
         }
+        
 
         $filteredProducts = $query->get();
 
-        return view('productos.catalogo', compact('filteredProducts'));
+        return view('productos.catalogo', compact('filteredProducts', 'colores', 'estilos', 'tipos_prenda'));
+
     }
+
     public function show($productId)
     {
         try {
