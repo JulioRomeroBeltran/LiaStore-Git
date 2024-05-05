@@ -61,10 +61,10 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="text-end">
-                    <button class="btn btn-dark btn-submit" type="submit">Filtrar</button>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                <button class="btn btn-danger me-2" type="button" onclick="window.location.href='/catalogo'">Borrar filtros</button>
+                    <button class="btn btn-dark" type="submit">Filtrar</button>
                 </div>
-
             </div>
 
         </form>
