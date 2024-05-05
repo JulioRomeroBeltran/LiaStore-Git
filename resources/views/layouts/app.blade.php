@@ -54,7 +54,7 @@
                         <li class="nav-item">
                             <div class="col-md" style="margin-right: 10px;">
                                 <form action="{{ route('product.catalogo') }}" method="GET">
-                                    <input type="text" class="form-control" id="search" name="search" placeholder="Nombre del producto">
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Buscar producto">
                                 </form>
                             </div>
                         </li>
