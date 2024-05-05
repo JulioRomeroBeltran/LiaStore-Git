@@ -46,10 +46,19 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <!-- You can add normal user menu items here -->
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <div class="col-md" style="margin-right: 10px;">
+                                <form action="{{ route('product.catalogo') }}" method="GET">
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Nombre del producto">
+                                </form>
+                            </div>
+                        </li>
+
                         <!-- Authentication Links -->
                         <a href="{{ route('cart.showCart') }}" style="color: black;">
                             <i class="fas fa-shopping-cart" style="font-size: 20px; margin-right: 5px; margin-top: 10px;"></i>
