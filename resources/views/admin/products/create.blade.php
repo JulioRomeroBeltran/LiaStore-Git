@@ -38,18 +38,39 @@
 
         <div class="mb-3">
             <label class="form-label">Tallas</label><br>
+            @foreach($tallas as $talla)
             <div class="form-check form-check-inline form-check-lg">
-                <input type="checkbox" id="ch" name="tallas[]" value="1" class="form-check-input">
-                <label for="ch" class="form-check-label"> CH</label>
+                <input type="checkbox" id="{{ $talla->id }}" name="tallas[]" value="{{ $talla->id }}" class="form-check-input">
+                <label for="{{ $talla->id }}" class="form-check-label"> {{ $talla->nombre }}</label>
             </div>
-            <div class="form-check form-check-inline form-check-lg">
-                <input type="checkbox" id="m" name="tallas[]" value="2" class="form-check-input">
-                <label for="m" class="form-check-label"> M</label>
-            </div>
-            <div class="form-check form-check-inline form-check-lg">
-                <input type="checkbox" id="g" name="tallas[]" value="3" class="form-check-input">
-                <label for="g" class="form-check-label"> G</label>
-            </div>
+            @endforeach
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select" id="colores" name="colores[]">
+                <option selected>Colores</option>
+                @foreach($colores as $color)
+                <option value="{{ $color->id }}">{{ $color->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select"id="estilos" name="estilos[]" >
+                <option selected>Estilos</option>
+                @foreach($estilos as $estilo)
+                <option value="{{ $estilo->id }}">{{ $estilo->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select" id="tipos_prenda" name="tipos_prenda[]">
+                <option selected>Tipo de prenda</option>
+                @foreach($tipos_prenda as $tipo)
+                <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">
