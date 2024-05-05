@@ -22,4 +22,19 @@ class Producto extends Model
     {
         return $this->belongsToMany(Talla::class);
     }
+
+    public function colores()
+    {
+        return $this->belongsToMany(Color::class, 'producto_color');
+    }
+
+    public function estilos()
+    {
+        return $this->belongsToMany(Estilo::class, 'producto_estilo');
+    }
+
+    public function tipos_prenda()
+    {
+        return $this->belongsToMany(TipoPrenda::class, 'producto_tipo_prenda');
+    }
 }
