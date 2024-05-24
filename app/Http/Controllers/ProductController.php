@@ -74,7 +74,11 @@ class ProductController extends Controller
         }
 
         if ($request->has('search')) {
-            $query->where('nombre', 'like', '%' . $request->input('search') . '%');
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('nombre', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('descripcion', 'like', '%' . $searchTerm . '%');
+            });
         }
 
         $hasFilters = $request->filled('availability') || $request->filled('color') || $request->filled('style') || $request->filled('type') || $request->has('sorting') || $request->has('search');
