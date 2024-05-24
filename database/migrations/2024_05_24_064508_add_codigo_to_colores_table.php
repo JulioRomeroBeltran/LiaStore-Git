@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->timestamps();
+        Schema::table('colores', function (Blueprint $table) {
+            $table->string('codigo')->after('nombre')->nullable(); // Agrega el campo 'codigo' después del campo 'nombre'
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colores');
+        Schema::table('colores', function (Blueprint $table) {
+            $table->dropColumn('codigo'); // Elimina el campo 'codigo' si se revierte la migración
+        });
     }
 };
