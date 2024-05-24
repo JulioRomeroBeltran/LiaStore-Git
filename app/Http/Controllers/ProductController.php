@@ -19,6 +19,7 @@ class ProductController extends Controller
         $colores = Color::all();
         $estilos = Estilo::all();
         $tipos_prenda = TipoPrenda::all();
+        $colores = Color::orderBy('nombre')->get();
 
         $query = Producto::query();
 
@@ -37,10 +38,9 @@ class ProductController extends Controller
                 case 'name_desc':
                     $query->orderBy('nombre', 'desc');
                     break;
-                default:
-                    // Default sorting or do nothing
-                    break;
             }
+        } else {
+            $query->orderBy('nombre', 'asc');
         }
 
         if ($request->has('availability')) {
@@ -57,16 +57,16 @@ class ProductController extends Controller
 
         if ($request->filled('color')) {
             $query->whereHas('colores', function ($query) use ($request) {
-                $query->where('colores.id', $request->color);
+                $query->whereIn('colores.id', $request->color);
             });
         }
-        
+
         if ($request->filled('style')) {
             $query->whereHas('estilos', function ($query) use ($request) {
                 $query->where('estilos.id', $request->style);
             });
         }
-        
+
         if ($request->filled('type')) {
             $query->whereHas('tipos_prenda', function ($query) use ($request) {
                 $query->where('tipos_prenda.id', $request->type);
@@ -74,14 +74,18 @@ class ProductController extends Controller
         }
 
         if ($request->has('search')) {
-            $query->where('nombre', 'like', '%' . $request->input('search') . '%');
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('nombre', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('descripcion', 'like', '%' . $searchTerm . '%');
+            });
         }
-        
+
+        $hasFilters = $request->filled('availability') || $request->filled('color') || $request->filled('style') || $request->filled('type') || $request->has('sorting') || $request->has('search');
 
         $filteredProducts = $query->get();
 
-        return view('productos.catalogo', compact('filteredProducts', 'colores', 'estilos', 'tipos_prenda'));
-
+        return view('productos.catalogo', compact('filteredProducts', 'colores', 'estilos', 'tipos_prenda', 'hasFilters'));
     }
 
     public function show($productId)

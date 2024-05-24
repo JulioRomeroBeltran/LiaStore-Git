@@ -1,95 +1,125 @@
 @extends('layouts.app')
+
 @section('content')
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Productos</h2>
-    <div class="card p-4 shadow">
-        <form action="{{ route('product.catalogo') }}" method="GET">
-            <div class="row mb-3 justify-content-end align-items-center">
-                <div class="col-md-auto pe-0">
-                    <label for="price" class="form-label mt-2" style="font-size: smaller;">Ordenar por:</label>
-                </div>
-                <div class="col-md-3">
-                    <select name="sorting" id="sorting" class="form-select border-0">
-                        <option value="">Por defecto</option>
-                        <option value="price_asc" {{ request('sorting') === 'price_asc' ? 'selected' : '' }}>Precio (menor a mayor)</option>
-                        <option value="price_desc" {{ request('sorting') === 'price_desc' ? 'selected' : '' }}>Precio (mayor a menor)</option>
-                        <option value="name_asc" {{ request('sorting') === 'name_asc' ? 'selected' : '' }}>Nombre (A a la Z)</option>
-                        <option value="name_desc" {{ request('sorting') === 'name_desc' ? 'selected' : '' }}>Nombre (Z a la A)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label for="availability" class="form-label">Disponibilidad:</label>
-                    <select name="availability" id="availability" class="form-select">
-                        <option value="">Todo</option>
-                        <option value="available" {{ request('availability') === 'available' ? 'selected' : '' }}>Disponible</option>
-                        <option value="unavailable" {{ request('availability') === 'unavailable' ? 'selected' : '' }}>No disponible</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="color" class="form-label">Color:</label>
-                    <select name="color" id="color" class="form-select">
-                        <option value="">Todos</option>
-                        @foreach($colores as $color)
-                        <option value="{{ $color->id }}" {{ $color->id == request('color') ? 'selected' : '' }}>
-                            {{ $color->nombre }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="style" class="form-label">Estilo:</label>
-                    <select name="style" id="style" class="form-select">
-                        <option value="">Todos</option>
-                        @foreach($estilos as $estilo)
-                        <option value="{{ $estilo->id }}" {{ $estilo->id == request('style') ? 'selected' : '' }}>
-                            {{ $estilo->nombre }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <label for="type" class="form-label">Tipo de prenda:</label>
-                    <select name="type" id="type" class="form-select">
-                        <option value="">Todos</option>
-                        @foreach($tipos_prenda as $tipo)
-                        <option value="{{ $tipo->id }}" {{ $tipo->id == request('type') ? 'selected' : '' }}>
-                            {{ $tipo->nombre }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                <button class="btn btn-danger me-2" type="button" onclick="window.location.href='/catalogo'">Borrar filtros</button>
-                    <button class="btn btn-dark" type="submit">Filtrar</button>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
-    <div class="row mt-4">
-        @forelse ($filteredProducts as $product)
-        <div class="col-md-4 mb-4 shadow">
-            <a href="{{ route('product.show', ['productId' => $product->id]) }}" class="text-decoration-none text-dark">
-                <div class="card h-100">
-                    @if ($product->imagen)
-                    <img src="{{ asset('storage/' . $product->imagen) }}" alt="{{ $product->nombre }}" class="card-img-top">
-                    @endif
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $product->nombre }}</h5>
-                        <p class="card-text">Precio: {{ $product->precio }}</p>
-                    </div>
-                </div>
-            </a>
+<div class="container-fluid">
+    <div class="row mb-2 justify-content-end align-items-center" style="margin-top: -20px; margin-right: 90px;">
+        <div class="col-md-auto pe-0">
+            <label for="price" class="form-label mt-2" style="font-size: smaller;">Ordenar por:</label>
         </div>
-        @empty
-        <div class="col">
-            <p class="text-center">No se encontraron productos.</p>
+        <div class="col-md-2">
+            <select name="sorting" id="sorting" class="form-select border-0">
+                <option value="name_asc" {{ request('sorting') === 'name_asc' ? 'selected' : '' }}>Nombre (A a la Z)</option>
+                <option value="name_desc" {{ request('sorting') === 'name_desc' ? 'selected' : '' }}>Nombre (Z a la A)</option>
+                <option value="price_asc" {{ request('sorting') === 'price_asc' ? 'selected' : '' }}>Precio (menor a mayor)</option>
+                <option value="price_desc" {{ request('sorting') === 'price_desc' ? 'selected' : '' }}>Precio (mayor a menor)</option>
+            </select>
         </div>
-        @endforelse
     </div>
 </div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2" style="margin-left: 2%;">
+            <div class="card shadow" id="filterBar">
+                <div class="card-body">
+                    <form action="{{ route('product.catalogo') }}" method="GET">
+                        <div class="mb-3">
+                            <label for="availability" class="form-label">Disponibilidad:</label>
+                            <select name="availability" id="availability" class="form-select">
+                                <option value="">Todo</option>
+                                <option value="available" {{ request('availability') === 'available' ? 'selected' : '' }}>Disponible</option>
+                                <option value="unavailable" {{ request('availability') === 'unavailable' ? 'selected' : '' }}>No disponible</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="color" class="form-label">Color:</label>
+                            <div class="d-flex flex-wrap">
+                                @foreach($colores as $color)
+                                @php
+                                $isChecked = in_array($color->id, request('color', []));
+                                @endphp
+                                <label for="color_{{ $color->id }}" style="cursor: pointer; margin-right: 10px;">
+                                    <input type="checkbox" name="color[]" id="color_{{ $color->id }}" value="{{ $color->id }}" style="display: none;">
+                                    <span class="badge rounded-pill color-badge" style="background-color: #{{ $color->codigo }}; border: 1px solid #c7c7c7; filter: brightness({{ $isChecked ? '80%' : '100%' }});" onclick="toggleColor(this)">&nbsp;</span>
+                                </label>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="style" class="form-label">Estilo:</label>
+                            <select name="style" id="style" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($estilos as $estilo)
+                                <option value="{{ $estilo->id }}" {{ $estilo->id == request('style') ? 'selected' : '' }}>
+                                    {{ $estilo->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Tipo de prenda:</label>
+                            <select name="type" id="type" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($tipos_prenda as $tipo)
+                                <option value="{{ $tipo->id }}" {{ $tipo->id == request('type') ? 'selected' : '' }}>
+                                    {{ $tipo->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            @if($hasFilters)
+                            <button class="btn btn-danger me-2" type="button" onclick="window.location.href='/catalogo'">Borrar filtros</button>
+                            @endif
+                            <button class="btn btn-dark" type="submit">Filtrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                @forelse ($filteredProducts as $product)
+                <div class="col-md-3 mb-4">
+                    <a href="{{ route('product.show', ['productId' => $product->id]) }}" class="text-decoration-none text-dark">
+                        <div class="card h-100 shadow">
+                            @if ($product->imagen)
+                            <img src="{{ asset('storage/' . $product->imagen) }}" alt="{{ $product->nombre }}" class="card-img-top">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->nombre }}</h5>
+                                <p class="card-text">Precio: {{ $product->precio }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                @empty
+                <div class="col">
+                    <p class="text-center">No se encontraron productos.</p>
+                </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+    window.addEventListener('scroll', function() {
+        var filterBar = document.getElementById('filterBar');
+        if (window.scrollY > 150) {
+            filterBar.style.top = (window.scrollY - 140) + 'px';
+        } else {
+            filterBar.style.top = '0';
+        }
+    });
+
+    function toggleColor(colorSpan) {
+        colorSpan.style.filter = colorSpan.style.filter === 'brightness(80%)' ? 'brightness(100%)' : 'brightness(80%)';
+    }
+</script>
+
+
 @endsection
