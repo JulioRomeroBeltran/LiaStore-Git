@@ -37,10 +37,10 @@ class ProductController extends Controller
                 case 'name_desc':
                     $query->orderBy('nombre', 'desc');
                     break;
-                default:
-                    // Default sorting or do nothing
-                    break;
+
             }
+        } else {
+            $query->orderBy('nombre', 'asc');
         }
 
         if ($request->has('availability')) {
@@ -77,10 +77,11 @@ class ProductController extends Controller
             $query->where('nombre', 'like', '%' . $request->input('search') . '%');
         }
         
+        $hasFilters = $request->filled('availability') || $request->filled('color') || $request->filled('style') || $request->filled('type') || $request->has('sorting') || $request->has('search');
 
         $filteredProducts = $query->get();
 
-        return view('productos.catalogo', compact('filteredProducts', 'colores', 'estilos', 'tipos_prenda'));
+        return view('productos.catalogo', compact('filteredProducts', 'colores', 'estilos', 'tipos_prenda', 'hasFilters'));
 
     }
 
