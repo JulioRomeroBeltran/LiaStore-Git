@@ -19,6 +19,7 @@ class ProductController extends Controller
         $colores = Color::all();
         $estilos = Estilo::all();
         $tipos_prenda = TipoPrenda::all();
+        $colores = Color::orderBy('nombre')->get();
 
         $query = Producto::query();
 
