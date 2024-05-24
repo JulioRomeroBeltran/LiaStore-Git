@@ -35,9 +35,12 @@
                             <label for="color" class="form-label">Color:</label>
                             <div class="d-flex flex-wrap">
                                 @foreach($colores as $color)
+                                @php
+                                $isChecked = in_array($color->id, request('color', []));
+                                @endphp
                                 <label for="color_{{ $color->id }}" style="cursor: pointer; margin-right: 10px;">
-                                    <input type="radio" name="color" id="color_{{ $color->id }}" value="{{ $color->id }}" style="display: none;">
-                                    <span class="badge rounded-pill color-badge" style="background-color: #{{ $color->codigo }}; border: 1px solid #c7c7c7;" onclick="selectColor(this)">&nbsp;</span>
+                                    <input type="checkbox" name="color[]" id="color_{{ $color->id }}" value="{{ $color->id }}" style="display: none;">
+                                    <span class="badge rounded-pill color-badge" style="background-color: #{{ $color->codigo }}; border: 1px solid #c7c7c7; filter: brightness({{ $isChecked ? '80%' : '100%' }});" onclick="toggleColor(this)">&nbsp;</span>
                                 </label>
                                 @endforeach
                             </div>
@@ -112,6 +115,10 @@
             filterBar.style.top = '0';
         }
     });
+
+    function toggleColor(colorSpan) {
+        colorSpan.style.filter = colorSpan.style.filter === 'brightness(80%)' ? 'brightness(100%)' : 'brightness(80%)';
+    }
 </script>
 
 
