@@ -28,25 +28,19 @@
                     <img src="{{ asset('logo.png') }}" alt="Lia Store">
                 </a>
 
-                <!-- Centered links -->
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ route('contacto') }}">Contacto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-5" href="{{ route('product.catalogo') }}">Catálogo</a>
-                    </li>
-                </ul>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        <!-- You can add normal user menu items here -->
-
+                    <!-- Centered links -->
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link fs-5" href="{{ route('contacto') }}">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-5" href="{{ route('product.catalogo') }}">Catálogo</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

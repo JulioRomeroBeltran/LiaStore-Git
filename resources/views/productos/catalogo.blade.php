@@ -19,7 +19,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2" style="margin-left: 2%;">
+        <div class="col-md-2 col-12" style="margin-left: 2%;">
+            <button class="btn btn-outline-dark w-100 mb-2 d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+                Filtros ▼
+            </button>
+            <div class="collapse d-md-block" id="filterCollapse">
             <div class="card shadow" id="filterBar">
                 <div class="card-body">
                     <form action="{{ route('product.catalogo') }}" method="GET">
@@ -75,6 +79,7 @@
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
 
