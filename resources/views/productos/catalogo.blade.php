@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row mb-2 justify-content-end align-items-center" style="margin-top: -20px; margin-right: 90px;">
-        <div class="col-md-auto pe-0">
-            <label for="price" class="form-label mt-2" style="font-size: smaller;">Ordenar por:</label>
+<div class="container-fluid px-3">
+    <div class="row align-items-center mb-2">
+        <div class="col-6 d-md-none">
+            <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+                Filtros ▼
+            </button>
         </div>
-        <div class="col-md-2">
-            <select name="sorting" id="sorting" class="form-select border-0">
+        <div class="col-6 col-md-12 d-flex justify-content-end align-items-center gap-2">
+            <label for="sorting" class="form-label mb-0 text-nowrap" style="font-size: smaller;">Ordenar por:</label>
+            <select name="sorting" id="sorting" class="form-select border-0" style="width: auto;">
                 <option value="name_asc" {{ request('sorting') === 'name_asc' ? 'selected' : '' }}>Nombre (A a la Z)</option>
                 <option value="name_desc" {{ request('sorting') === 'name_desc' ? 'selected' : '' }}>Nombre (Z a la A)</option>
                 <option value="price_asc" {{ request('sorting') === 'price_asc' ? 'selected' : '' }}>Precio (menor a mayor)</option>
@@ -17,12 +20,9 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid px-3">
     <div class="row">
-        <div class="col-md-2 col-12" style="margin-left: 2%;">
-            <button class="btn btn-outline-dark w-100 mb-2 d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
-                Filtros ▼
-            </button>
+        <div class="col-md-2 col-12">
             <div class="collapse d-md-block" id="filterCollapse">
             <div class="card shadow" id="filterBar">
                 <div class="card-body">
