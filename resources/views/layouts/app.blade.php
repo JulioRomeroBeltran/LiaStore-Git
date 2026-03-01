@@ -42,8 +42,8 @@
                         <input type="text" class="form-control" name="search" placeholder="Buscar producto" value="{{ request('search') }}">
                     </form>
 
-                    <!-- Centered nav links -->
-                    <ul class="navbar-nav mx-auto">
+                    <!-- Nav links -->
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link fs-5" href="{{ route('contacto') }}">Contacto</a>
                         </li>
@@ -53,7 +53,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar (desktop) -->
-                    <ul class="navbar-nav ms-auto align-items-center">
+                    <ul class="navbar-nav align-items-center">
                         <!-- Search: desktop only -->
                         <li class="nav-item me-2 d-none d-md-block">
                             <form action="{{ route('product.catalogo') }}" method="GET">
