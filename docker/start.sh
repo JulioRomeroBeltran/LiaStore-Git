@@ -45,7 +45,11 @@ php artisan view:cache
 php artisan migrate --force
 php artisan db:seed --force
 
-php artisan storage:link --force 2>/dev/null || true
+# Remove public/storage if it's a real directory (not a symlink) so storage:link can work
+if [ -e "$APP_DIR/public/storage" ] && [ ! -L "$APP_DIR/public/storage" ]; then
+    rm -rf "$APP_DIR/public/storage"
+fi
+php artisan storage:link
 
 # ── Start Apache ──────────────────────────────────────────────────────────────
 exec apache2-foreground
