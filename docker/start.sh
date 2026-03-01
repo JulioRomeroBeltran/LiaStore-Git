@@ -39,7 +39,6 @@ chmod 664 "$APP_DIR/database/database.sqlite"
 cd "$APP_DIR"
 
 php artisan config:cache
-php artisan route:cache
 php artisan view:cache
 
 php artisan migrate --force
