@@ -23,9 +23,13 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <!-- Replace text with an image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('logo.png') }}" alt="Lia Store">
+                </a>
+
+                <!-- Cart icon visible on mobile (outside collapse) -->
+                <a href="{{ route('cart.showCart') }}" class="d-md-none ms-auto me-2" style="color: black;">
+                    <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -44,19 +48,19 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <div class="col-md" style="margin-right: 10px;">
-                                <form action="{{ route('product.catalogo') }}" method="GET">
-                                    <input type="text" class="form-control" id="search" name="search" placeholder="Buscar producto">
-                                </form>
-                            </div>
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item me-2">
+                            <form action="{{ route('product.catalogo') }}" method="GET">
+                                <input type="text" class="form-control" id="search" name="search" placeholder="Buscar producto">
+                            </form>
                         </li>
 
-                        <!-- Authentication Links -->
-                        <a href="{{ route('cart.showCart') }}" style="color: black;">
-                            <i class="fas fa-shopping-cart" style="font-size: 20px; margin-right: 5px; margin-top: 10px;"></i>
-                        </a>
+                        <!-- Cart icon visible on desktop (inside collapse) -->
+                        <li class="nav-item d-none d-md-flex align-items-center me-2">
+                            <a href="{{ route('cart.showCart') }}" style="color: black;">
+                                <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
+                            </a>
+                        </li>
 
                         @guest
                         @if (Route::has('login'))
