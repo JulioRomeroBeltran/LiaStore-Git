@@ -37,7 +37,12 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Centered links -->
+                    <!-- Search bar: first on mobile, hidden on desktop (shown in right ul) -->
+                    <form action="{{ route('product.catalogo') }}" method="GET" class="d-md-none mb-2 mt-2">
+                        <input type="text" class="form-control" name="search" placeholder="Buscar producto" value="{{ request('search') }}">
+                    </form>
+
+                    <!-- Centered nav links -->
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link fs-5" href="{{ route('contacto') }}">Contacto</a>
@@ -47,15 +52,16 @@
                         </li>
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    <!-- Right Side Of Navbar (desktop) -->
                     <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item me-2">
+                        <!-- Search: desktop only -->
+                        <li class="nav-item me-2 d-none d-md-block">
                             <form action="{{ route('product.catalogo') }}" method="GET">
-                                <input type="text" class="form-control" id="search" name="search" placeholder="Buscar producto">
+                                <input type="text" class="form-control" name="search" placeholder="Buscar producto" value="{{ request('search') }}">
                             </form>
                         </li>
 
-                        <!-- Cart icon visible on desktop (inside collapse) -->
+                        <!-- Cart icon: desktop only -->
                         <li class="nav-item d-none d-md-flex align-items-center me-2">
                             <a href="{{ route('cart.showCart') }}" style="color: black;">
                                 <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
