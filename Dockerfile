@@ -13,7 +13,7 @@ FROM php:8.2-apache
 
 # Install system deps + PHP extensions
 RUN apt-get update && apt-get install -y \
-        libzip-dev libpng-dev libonig-dev libxml2-dev unzip \
+        libzip-dev libpng-dev libonig-dev libxml2-dev libsqlite3-dev unzip \
     && docker-php-ext-install pdo pdo_mysql pdo_sqlite zip mbstring exif bcmath gd \
     && rm -rf /var/lib/apt/lists/*
 
