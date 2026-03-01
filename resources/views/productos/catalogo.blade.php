@@ -1,14 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #filterToggleBtn {
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        color: #495057;
+    }
+    #filterToggleBtn:hover,
+    #filterToggleBtn:focus,
+    #filterToggleBtn:active {
+        background-color: #f8f9fa !important;
+        color: #495057 !important;
+        border-color: #ced4da !important;
+        box-shadow: none !important;
+    }
+</style>
+
 <div class="container-fluid px-3">
-    <div class="row align-items-center mb-2">
-        <div class="col-6 d-md-none">
-            <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
-                Filtros ▼
-            </button>
-        </div>
-        <div class="col-6 col-md-12 d-flex justify-content-end align-items-center gap-2">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+        <button id="filterToggleBtn" class="btn d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+            Filtros ▼
+        </button>
+        <div class="d-flex align-items-center gap-2 ms-auto">
             <label for="sorting" class="form-label mb-0 text-nowrap" style="font-size: smaller;">Ordenar por:</label>
             <select name="sorting" id="sorting" class="form-select border-0" style="width: auto;">
                 <option value="name_asc" {{ request('sorting') === 'name_asc' ? 'selected' : '' }}>Nombre (A a la Z)</option>
@@ -94,7 +108,7 @@
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->nombre }}</h5>
-                                <p class="card-text">Precio: {{ $product->precio }}</p>
+                                <p class="card-text">${{ number_format($product->precio, 2) }} MXN</p>
                             </div>
                         </div>
                     </a>
