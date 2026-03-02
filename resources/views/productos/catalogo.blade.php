@@ -43,7 +43,7 @@
                     <form action="{{ route('product.catalogo') }}" method="GET">
                         <div class="mb-3">
                             <label for="availability" class="form-label">Disponibilidad:</label>
-                            <select name="availability" id="availability" class="form-select">
+                            <select name="availability" id="availability" class="form-select" onchange="this.form.submit()">
                                 <option value="">Todo</option>
                                 <option value="available" {{ request('availability') === 'available' ? 'selected' : '' }}>Disponible</option>
                                 <option value="unavailable" {{ request('availability') === 'unavailable' ? 'selected' : '' }}>No disponible</option>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="style" class="form-label">Estilo:</label>
-                            <select name="style" id="style" class="form-select">
+                            <select name="style" id="style" class="form-select" onchange="this.form.submit()">
                                 <option value="">Todos</option>
                                 @foreach($estilos as $estilo)
                                 <option value="{{ $estilo->id }}" {{ $estilo->id == request('style') ? 'selected' : '' }}>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="type" class="form-label">Tipo de prenda:</label>
-                            <select name="type" id="type" class="form-select">
+                            <select name="type" id="type" class="form-select" onchange="this.form.submit()">
                                 <option value="">Todos</option>
                                 @foreach($tipos_prenda as $tipo)
                                 <option value="{{ $tipo->id }}" {{ $tipo->id == request('type') ? 'selected' : '' }}>

@@ -179,7 +179,7 @@
 
                         <div class="total text-end" style="margin-right:5px; margin-top: 5px;">
                             <h3 class="text-start" style="margin-left:10px;">Tipos de envio</h3>
-                            <input type="hidden" name="direccion_id" value="{{ $direccion->id }}">
+                            <input type="hidden" name="direccion_id" value="{{ $direcciones->first()?->id ?? '' }}">
                             <div class="container mt-3 text-center">
                                 <div class="row">
                                     @foreach($tiposEnvio as $tipo)

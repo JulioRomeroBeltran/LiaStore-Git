@@ -33,12 +33,11 @@
                 <td>${{ $item->product->precio ?? 'N/A' }}</td>
                 <td>
 
-                    <!-- Quantity input form -->
                     <form action="{{ route('cart.updateQuantity', ['productId' => $item->product_id]) }}" method="post">
                         @csrf
                         @method('patch')
-                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="0" required>
-                        <button type="submit" class="btn btn-dark">Actualizar</button>
+                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="0" required
+                            onchange="this.form.submit()" style="width: 70px;">
                     </form>
 
 

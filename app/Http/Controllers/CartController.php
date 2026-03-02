@@ -216,7 +216,7 @@ class CartController extends Controller
     
         $tipoEnvioSeleccionado = $request->input('tipo_envio_seleccionado', 0);
     
-        $costoEnvio = TipoEnvio::find($tipoEnvioSeleccionado)->costo ?? 0;
+        $costoEnvio = TipoEnvio::find($tipoEnvioSeleccionado)?->costo ?? 0;
     
         $total = $totalProductos + $costoEnvio;
     
