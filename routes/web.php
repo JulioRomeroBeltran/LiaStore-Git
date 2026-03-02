@@ -26,7 +26,12 @@ Route::get('/gestionarperfil', function () {
 });
 
 Route::get('/', function () {
-    return view('inicio');
+    $productos  = \App\Models\Producto::inRandomOrder()->take(8)->get();
+    $destacado  = \App\Models\Producto::whereNotNull('imagen')->latest()->first();
+    $categorias = \App\Models\TipoPrenda::with(['productos' => function ($q) {
+        $q->whereNotNull('imagen');
+    }])->get()->filter(fn($c) => $c->productos->isNotEmpty())->values();
+    return view('inicio', compact('productos', 'destacado', 'categorias'));
 });
 
 Route::get('/recuperar-contraseña', function () {

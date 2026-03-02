@@ -34,7 +34,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+            <div class="container-fluid px-4">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('logo.png') }}" alt="Lia Store">
                 </a>
@@ -123,17 +123,24 @@
             </div>
         </nav>
 
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show m-3 mb-0" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{-- Toast notifications --}}
+        @if(session('success') || session('error'))
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+            <div id="appToast" class="toast align-items-center border-0 {{ session('success') ? 'text-bg-dark' : 'text-bg-danger' }}" role="alert" data-bs-autohide="true" data-bs-delay="4000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('success') ?? session('error') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
         </div>
-        @endif
-        @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show m-3 mb-0" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var el = document.getElementById('appToast');
+                if (el) new bootstrap.Toast(el).show();
+            });
+        </script>
         @endif
 
         <main class="py-4">

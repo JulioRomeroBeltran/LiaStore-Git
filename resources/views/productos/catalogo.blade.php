@@ -80,7 +80,7 @@
                                 <option value="">Todos</option>
                                 @foreach($tipos_prenda as $tipo)
                                 <option value="{{ $tipo->id }}" {{ $tipo->id == request('type') ? 'selected' : '' }}>
-                                    {{ $tipo->nombre }}
+                                    {{ $tipo->nombre_tipo }}
                                 </option>
                                 @endforeach
                             </select>

@@ -16,6 +16,10 @@ class CartController extends Controller
 {
     public function addToCart(Request $request, $productId)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Inicia sesión para agregar productos al carrito.');
+        }
+
         $product = Producto::find($productId);
 
         if (!$product) {
