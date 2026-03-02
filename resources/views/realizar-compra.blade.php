@@ -1,270 +1,379 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container padding-bottom">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel left-panel">
-                <h2>Lia Store Tienda Online</h2>
-                <h5>Carrito> <span>Informacion</span></h5>
-                <div>
-                    <p>Pago Express</p>
-                    <div>
-                        <button class="btn btn-link"><img src="Paypal.png" style="border-radius: 0;"></button>
-                        <button class="btn btn-link"> <img src="apple.png" style="border-radius: 0;"></button>
-                    </div>
+<style>
+    .co-page { min-height: calc(100vh - 60px); }
+
+    /* ── Columns ───────────────────────────────────────── */
+    .co-left  { padding: 48px 52px 80px; border-right: 1px solid #ebebeb; }
+    .co-right { padding: 40px 44px; background: #f7f7f7; }
+    .co-sticky { position: sticky; top: 80px; }
+
+    /* ── Section headers ───────────────────────────────── */
+    .co-section { margin-bottom: 36px; }
+    .co-section-title {
+        display: flex; align-items: center; gap: 10px;
+        font-size: 0.78rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: #111; margin-bottom: 20px;
+    }
+    .co-section-num {
+        width: 22px; height: 22px; border-radius: 50%;
+        background: #111; color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ── Inputs ────────────────────────────────────────── */
+    .co-field { margin-bottom: 12px; }
+    .co-label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 4px; }
+    .co-input {
+        width: 100%; border: 1px solid #ddd; border-radius: 4px;
+        padding: 10px 13px; font-size: 0.875rem;
+        outline: none; transition: border-color 0.18s; background: #fff;
+    }
+    .co-input:focus { border-color: #111; }
+    .co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .co-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+
+    /* ── Saved address cards ───────────────────────────── */
+    .co-addr-label { display: block; cursor: pointer; margin-bottom: 10px; }
+    .co-addr-label input[type="radio"] { display: none; }
+    .co-addr-card {
+        border: 1.5px solid #ddd; border-radius: 6px;
+        padding: 14px 16px; display: flex; align-items: flex-start;
+        gap: 12px; transition: border-color 0.18s, background 0.18s;
+    }
+    .co-addr-label input:checked + .co-addr-card,
+    .co-addr-card.active {
+        border-color: #111; background: #fafafa;
+    }
+    .co-addr-radio {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 2px solid #ccc; flex-shrink: 0; margin-top: 2px;
+        display: flex; align-items: center; justify-content: center;
+        transition: border-color 0.18s;
+    }
+    .co-addr-label input:checked + .co-addr-card .co-addr-radio { border-color: #111; }
+    .co-addr-radio::after {
+        content: ''; width: 8px; height: 8px; border-radius: 50%;
+        background: #111; display: none;
+    }
+    .co-addr-label input:checked + .co-addr-card .co-addr-radio::after { display: block; }
+    .co-addr-text { font-size: 0.875rem; line-height: 1.5; color: #333; }
+    .co-addr-name { font-weight: 600; margin-bottom: 2px; }
+    .co-addr-badge {
+        display: inline-block; font-size: 0.68rem; font-weight: 700;
+        letter-spacing: 0.06em; background: #111; color: #fff;
+        padding: 2px 7px; border-radius: 20px; margin-left: 6px;
+        vertical-align: middle; text-transform: uppercase;
+    }
+
+    /* ── Shipping options ──────────────────────────────── */
+    .co-ship-opt {
+        border: 1.5px solid #ddd; border-radius: 6px;
+        padding: 14px 16px; cursor: pointer; margin-bottom: 10px;
+        display: flex; align-items: center; justify-content: space-between;
+        transition: border-color 0.18s, background 0.18s;
+    }
+    .co-ship-opt.active { border-color: #111; background: #fafafa; }
+    .co-ship-left { display: flex; align-items: center; gap: 12px; }
+    .co-ship-dot {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 2px solid #ccc; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        transition: border-color 0.18s;
+    }
+    .co-ship-opt.active .co-ship-dot { border-color: #111; }
+    .co-ship-dot::after {
+        content: ''; width: 8px; height: 8px; border-radius: 50%;
+        background: #111; display: none;
+    }
+    .co-ship-opt.active .co-ship-dot::after { display: block; }
+    .co-ship-name { font-size: 0.875rem; font-weight: 500; }
+    .co-ship-price { font-size: 0.875rem; color: #555; }
+
+    /* ── Payment info ──────────────────────────────────── */
+    .co-card-saved {
+        border: 1.5px solid #ddd; border-radius: 6px;
+        padding: 14px 16px; margin-bottom: 10px; font-size: 0.875rem;
+    }
+    .co-card-saved-num { font-weight: 600; margin-bottom: 2px; }
+
+    /* ── Actions ───────────────────────────────────────── */
+    .co-back {
+        font-size: 0.82rem; color: #777; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 6px;
+    }
+    .co-back:hover { color: #111; }
+    .co-btn {
+        background: #111; color: #fff; border: none;
+        padding: 13px 28px; font-size: 0.875rem;
+        letter-spacing: 0.04em; cursor: pointer;
+        border-radius: 4px; transition: background 0.18s;
+    }
+    .co-btn:hover { background: #333; }
+    .co-btn-full { width: 100%; padding: 15px; font-size: 0.9rem; border-radius: 4px; }
+
+    /* ── Order summary ─────────────────────────────────── */
+    .co-summary-title {
+        font-size: 0.78rem; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .co-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e8e8e8; }
+    .co-item:last-of-type { border-bottom: none; }
+    .co-item-img {
+        width: 60px; height: 60px; object-fit: cover;
+        border-radius: 4px; border: 1px solid #e0e0e0; flex-shrink: 0;
+    }
+    .co-item-info { flex: 1; min-width: 0; }
+    .co-item-name { font-size: 0.875rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .co-item-sub  { font-size: 0.78rem; color: #888; }
+    .co-item-price { font-size: 0.875rem; font-weight: 600; white-space: nowrap; }
+
+    .co-totals { margin-top: 20px; }
+    .co-total-row {
+        display: flex; justify-content: space-between;
+        font-size: 0.85rem; color: #666; padding: 5px 0;
+    }
+    .co-total-row.co-grand {
+        font-weight: 700; font-size: 1rem; color: #111;
+        border-top: 1px solid #ddd; padding-top: 14px; margin-top: 8px;
+    }
+    .co-hint { font-size: 0.75rem; color: #aaa; margin-top: 6px; }
+
+    /* ── Mobile ────────────────────────────────────────── */
+    @media (max-width: 767px) {
+        .co-left  { padding: 28px 20px 60px; border-right: none; border-top: 1px solid #ebebeb; }
+        .co-right { padding: 24px 20px; }
+        .co-row-2, .co-row-3 { grid-template-columns: 1fr; }
+        .co-sticky { position: static; }
+    }
+</style>
+
+<div class="container-fluid px-0">
+    <div class="row g-0 co-page">
+
+        {{-- ══ LEFT: Forms ══════════════════════════════════════════════ --}}
+        <div class="col-md-7 co-left">
+
+            {{-- ── 1. Dirección de envío ────────────────────────────── --}}
+            <div class="co-section">
+                <div class="co-section-title">
+                    <span class="co-section-num">1</span>
+                    Dirección de envío
                 </div>
-                <hr class="solid">
 
-                <form>
-                    <h3>Contacto</h3>
-                    <input type="text" class="form-control mb-3" placeholder="Correo Electrónico">
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="novedades" name="novedades">
-                        <label class="form-check-label" for="novedades">Enviarme novedades y ofertas por correo electrónico</label>
-                    </div>
-                    <hr class="solid">
-
-                    @if($informacionPago && $informacionPago->count() > 0)
-                    <h3>Información de Pago</h3>
-                    <div class="list-group mb-3">
-                        @foreach($informacionPago as $infoPago)
-                        <div class="info-pago-container border rounded mb-2 p-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    Número de Tarjeta: {{ $infoPago->numero_tarjeta }}<br>
-                                    Nombre en la Tarjeta: {{ $infoPago->nombre_tarjeta }}<br>
-                                    @if($infoPago->usuarioInformacionPago && $infoPago->usuarioInformacionPago->principal)
-                                    <span class="badge bg-dark">Principal</span>
+                @if($direcciones && $direcciones->count() > 0)
+                    @foreach($direcciones as $dir)
+                    <label class="co-addr-label">
+                        <input type="radio" name="dir_sel" value="{{ $dir->id }}"
+                               {{ $loop->first ? 'checked' : '' }}
+                               onchange="setDireccion({{ $dir->id }})">
+                        <div class="co-addr-card">
+                            <div class="co-addr-radio"></div>
+                            <div class="co-addr-text">
+                                <div class="co-addr-name">
+                                    {{ $dir->recipient_name }}
+                                    @if($dir->usuarioDireccion && $dir->usuarioDireccion->active)
+                                        <span class="co-addr-badge">Principal</span>
                                     @endif
                                 </div>
+                                {{ $dir->calle }}, {{ $dir->ciudad }},
+                                {{ $dir->estado }} {{ $dir->codigo_postal }}
+                                @if($dir->recipient_phone)
+                                    · {{ $dir->recipient_phone }}
+                                @endif
                             </div>
                         </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <form id="informacion-pago-form" method="post" action="{{ route('cart.storePaymentInfo') }}" style="margin-bottom: 10px; text-align: left;">
+                    </label>
+                    @endforeach
+                @else
+                    <form method="post" action="{{ route('cart.storeAddress') }}">
                         @csrf
-
-                        <h2 class="text-center mb-4">Ingresar Información de Pago</h2>
-
-                        <div class="mb-3">
-                            <label for="numero_tarjeta" class="form-label">Número de Tarjeta:</label>
-                            <input class="form-control" type="text" id="numero_tarjeta" name="numero_tarjeta" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="nombre_tarjeta" class="form-label">Nombre en la Tarjeta:</label>
-                            <input class="form-control" type="text" id="nombre_tarjeta" name="nombre_tarjeta" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="fecha_expiracion" class="form-label">Fecha de Expiración:</label>
-                            <input class="form-control" type="text" id="fecha_expiracion" name="fecha_expiracion" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="codigo_seguridad" class="form-label">Código de Seguridad:</label>
-                            <input class="form-control" type="text" id="codigo_seguridad" name="codigo_seguridad" required>
-                        </div>
-
-                        <div class="form-check mb-3" style="display: none;">
-                            <input class="form-check-input" type="checkbox" id="principal" name="principal" checked>
-                            <label class="form-check-label" for="principal">
-                                Marcar como Información de Pago Principal
-                            </label>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-dark">Guardar Información de Pago</button>
-                        </div>
-                    </form>
-                    @endif
-
-                    @if($direcciones && $direcciones->count() > 0)
-                    <h3 class="mt-3">Dirección de Envío</h3>
-                    <div class="list-group mb-3">
-                        @foreach($direcciones as $direccion)
-                        <div class="info-direccion-container border rounded mb-2 p-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    {{ $direccion->recipient_name }} - {{ $direccion->calle }}, {{ $direccion->ciudad }}, {{ $direccion->estado }}, {{ $direccion->codigo_postal }}
-                                    @if($direccion->usuarioDireccion && $direccion->usuarioDireccion->active)
-                                    <span class="badge bg-dark">Principal</span>
-                                    @endif
-                                </div>
+                        <div class="co-row-2">
+                            <div class="co-field">
+                                <label class="co-label">Nombre del destinatario</label>
+                                <input class="co-input" type="text" name="recipient_name" required>
+                            </div>
+                            <div class="co-field">
+                                <label class="co-label">Teléfono</label>
+                                <input class="co-input" type="tel" name="recipient_phone" required>
                             </div>
                         </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <h3 class="text-center mb-4">Ingrese Dirección de Envío</h3>
-                    <form id="address-form" method="post" action="{{ route('cart.storeAddress') }}" style="margin-bottom: 10px; text-align: left;">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="recipient_name" class="form-label">Nombre del destinatario:</label>
-                            <input class="form-control" type="text" id="recipient_name" name="recipient_name" required>
+                        <div class="co-field">
+                            <label class="co-label">Calle</label>
+                            <input class="co-input" type="text" name="street" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="recipient_phone" class="form-label">Teléfono del destinatario:</label>
-                            <input class="form-control" type="tel" id="recipient_phone" name="recipient_phone" required>
+                        <div class="co-row-3">
+                            <div class="co-field">
+                                <label class="co-label">Ciudad</label>
+                                <input class="co-input" type="text" name="city" required>
+                            </div>
+                            <div class="co-field">
+                                <label class="co-label">Estado</label>
+                                <input class="co-input" type="text" name="state" required>
+                            </div>
+                            <div class="co-field">
+                                <label class="co-label">Código postal</label>
+                                <input class="co-input" type="text" name="zip" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="street" class="form-label">Calle:</label>
-                            <input class="form-control" type="text" id="street" name="street" required>
+                        <div class="co-field">
+                            <label class="co-label">Información adicional (opcional)</label>
+                            <input class="co-input" type="text" name="additional_info">
                         </div>
-                        <div class="mb-3">
-                            <label for="city" class="form-label">Ciudad:</label>
-                            <input class="form-control" type="text" id="city" name="city" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="state" class="form-label">Estado:</label>
-                            <input class="form-control" type="text" id="state" name="state" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="zip" class="form-label">Código Postal:</label>
-                            <input class="form-control" type="text" id="zip" name="zip" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="additional_info" class="form-label">Información adicional:</label>
-                            <textarea class="form-control" id="additional_info" name="additional_info" rows="3"></textarea>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-dark">Guardar Dirección</button>
-                        </div>
+                        <button type="submit" class="co-btn mt-2">Guardar dirección</button>
                     </form>
-                    @endif
+                @endif
+            </div>
 
-                    <div class="end-form">
-                        <a href="{{ route('cart.showCart') }}" id="volverEnlace" class="btn btn-secondary">Volver a Carrito</a>
+            {{-- ── 2. Tipo de envío ─────────────────────────────────── --}}
+            <div class="co-section">
+                <div class="co-section-title">
+                    <span class="co-section-num">2</span>
+                    Tipo de envío
+                </div>
+
+                @foreach($tiposEnvio as $tipo)
+                <div class="co-ship-opt {{ $loop->first ? 'active' : '' }}"
+                     onclick="selectShipping(this, {{ $tipo->id }}, {{ $tipo->costo }})">
+                    <div class="co-ship-left">
+                        <div class="co-ship-dot"></div>
+                        <span class="co-ship-name">{{ $tipo->nombre }}</span>
                     </div>
+                    <span class="co-ship-price">${{ number_format($tipo->costo, 2) }} MXN</span>
+                </div>
+                @endforeach
+            </div>
+
+            {{-- ── 3. Información de pago ───────────────────────────── --}}
+            <div class="co-section">
+                <div class="co-section-title">
+                    <span class="co-section-num">3</span>
+                    Información de pago
+                </div>
+
+                @if($informacionPago && $informacionPago->count() > 0)
+                    @foreach($informacionPago as $pago)
+                    <div class="co-card-saved">
+                        <div class="co-card-saved-num">
+                            •••• •••• •••• {{ substr($pago->numero_tarjeta, -4) }}
+                            @if($pago->usuarioInformacionPago && $pago->usuarioInformacionPago->principal)
+                                <span class="co-addr-badge">Principal</span>
+                            @endif
+                        </div>
+                        <div style="font-size:0.8rem;color:#888;">{{ $pago->nombre_tarjeta }} · Vence {{ $pago->fecha_expiracion }}</div>
+                    </div>
+                    @endforeach
+                @else
+                    <form id="informacion-pago-form" method="post" action="{{ route('cart.storePaymentInfo') }}">
+                        @csrf
+                        <div class="co-field">
+                            <label class="co-label">Número de tarjeta</label>
+                            <input class="co-input" type="text" name="numero_tarjeta" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="co-field">
+                            <label class="co-label">Nombre en la tarjeta</label>
+                            <input class="co-input" type="text" name="nombre_tarjeta" required>
+                        </div>
+                        <div class="co-row-2">
+                            <div class="co-field">
+                                <label class="co-label">Fecha de expiración</label>
+                                <input class="co-input" type="text" name="fecha_expiracion" placeholder="MM/AA" required>
+                            </div>
+                            <div class="co-field">
+                                <label class="co-label">CVV</label>
+                                <input class="co-input" type="text" name="codigo_seguridad" placeholder="•••" required>
+                            </div>
+                        </div>
+                        <input type="hidden" name="principal" value="1">
+                        <button type="submit" class="co-btn mt-2">Guardar tarjeta</button>
+                    </form>
+                @endif
+            </div>
+
+            <a href="{{ route('cart.showCart') }}" class="co-back">← Volver al carrito</a>
+        </div>
+
+        {{-- ══ RIGHT: Order summary ══════════════════════════════════════ --}}
+        <div class="col-md-5 co-right">
+            <div class="co-sticky">
+
+                <div class="co-summary-title">Resumen del pedido</div>
+
+                @if($cartItems && $cartItems->count() > 0)
+                <form action="{{ route('procesar_pedido') }}" method="post">
+                    @csrf
+
+                    {{-- Product list --}}
+                    @foreach($cartItems as $item)
+                    <div class="co-item">
+                        <img src="{{ asset('storage/' . $item->product->imagen) }}"
+                             alt="{{ $item->product->nombre }}" class="co-item-img">
+                        <div class="co-item-info">
+                            <div class="co-item-name">{{ $item->product->nombre }}</div>
+                            <div class="co-item-sub">Cantidad: {{ $item->quantity }}</div>
+                        </div>
+                        <div class="co-item-price">${{ number_format($item->product->precio * $item->quantity, 2) }}</div>
+
+                        <input type="hidden" name="productos[{{ $item->product->id }}][id]"       value="{{ $item->product->id }}">
+                        <input type="hidden" name="productos[{{ $item->product->id }}][nombre]"   value="{{ $item->product->nombre }}">
+                        <input type="hidden" name="productos[{{ $item->product->id }}][precio]"   value="{{ $item->product->precio }}">
+                        <input type="hidden" name="productos[{{ $item->product->id }}][cantidad]" value="{{ $item->quantity }}">
+                    </div>
+                    @endforeach
+
+                    {{-- Hidden fields --}}
+                    <input type="hidden" name="direccion_id"            id="direccion_id"            value="{{ $direcciones->first()?->id ?? '' }}">
+                    <input type="hidden" name="tipo_envio_seleccionado" id="tipo_envio_seleccionado" value="{{ $tiposEnvio->first()?->id ?? '' }}">
+                    <input type="hidden" name="costo_envio_seleccionado" id="costo_envio_seleccionado" value="{{ $tiposEnvio->first()?->costo ?? 0 }}">
+
+                    {{-- Totals --}}
+                    <div class="co-totals">
+                        <div class="co-total-row">
+                            <span>Subtotal</span>
+                            <span>${{ number_format($totalProductos, 2) }}</span>
+                        </div>
+                        <div class="co-total-row">
+                            <span>Envío</span>
+                            <span id="costoEnvioDisplay">${{ number_format($tiposEnvio->first()?->costo ?? 0, 2) }}</span>
+                        </div>
+                        <div class="co-total-row co-grand">
+                            <span>Total</span>
+                            <span id="totalDisplay">${{ number_format($totalProductos + ($tiposEnvio->first()?->costo ?? 0), 2) }}</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="co-btn co-btn-full mt-4">Confirmar pedido →</button>
+                    <p class="co-hint text-center">Al confirmar, aceptas nuestros términos de compra.</p>
                 </form>
+
+                @else
+                    <p style="font-size:0.9rem;color:#888;">No hay productos en el carrito.</p>
+                @endif
+
             </div>
         </div>
 
-        <div class="col-md-6" style="background-color: rgba(242, 242, 242, 0.9); min-height: 800px;">
-            <div class="panel right-panel ">
-                <div class="summary ">
-                    <h3 class="mb-4 ">Resumen del Carrito</h3>
-                    @if($cartItems && $cartItems->count() > 0)
-                    <form action="{{ route('procesar_pedido') }}" method="post">
-                        @csrf
-                        <ul class="list-group">
-                            @foreach($cartItems as $cartItem)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <img src="{{ asset('storage/' . $cartItem->product->imagen) }}" alt="{{ $cartItem->product->nombre }}" class="me-2" style="max-width: 60px;">
-                                    <div>
-                                        <h6 class="mb-0">{{ $cartItem->product->nombre }}</h6>
-                                        <small class="text-muted">Precio: ${{ $cartItem->product->precio }}</small>
-                                    </div>
-                                </div>
-                                <span class="badge bg-dark rounded-pill">{{ $cartItem->quantity }}</span>
-
-                                <!-- Agrega campos ocultos para cada producto con un índice único -->
-                                <input type="hidden" name="productos[{{ $cartItem->product->id }}][id]" value="{{ $cartItem->product->id }}">
-                                <input type="hidden" name="productos[{{ $cartItem->product->id }}][nombre]" value="{{ $cartItem->product->nombre }}">
-                                <input type="hidden" name="productos[{{ $cartItem->product->id }}][precio]" value="{{ $cartItem->product->precio }}">
-                                <input type="hidden" name="productos[{{ $cartItem->product->id }}][cantidad]" value="{{ $cartItem->quantity }}">
-                            </li>
-                            @endforeach
-                        </ul>
-
-                        <style>
-                            .seleccionado {
-                                background-color: #343a40;
-                                color: #fff;
-                            }
-                        </style>
-
-                        <div class="total text-end" style="margin-right:5px; margin-top: 5px;">
-                            <h3 class="text-start" style="margin-left:10px;">Tipos de envio</h3>
-                            <input type="hidden" name="direccion_id" value="{{ $direcciones->first()?->id ?? '' }}">
-                            <div class="container mt-3 text-center">
-                                <div class="row">
-                                    @foreach($tiposEnvio as $tipo)
-                                    <div class="col-md-4 mb-3 text-center">
-                                        <button type="button" class="btn btn-light seccion" data-id="{{ $tipo->id }}" onclick="seleccionarSeccion(this)">
-                                            <div class="circulo"></div>
-                                            <p class="card-text">{{ $tipo->nombre }} - {{ $tipo->costo }} MXN</p>
-                                        </button>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="total text-end" style="margin-right:5px; margin-top: 5px;">
-                                <h5>Costo de Envío:</h5>
-                                <p id="costoEnvio">${{ $costoEnvio }}</p>
-                            </div>
-
-                            <div class="total text-end" style="margin-right:5px; margin-top: 5px;">
-                                <h5>Costo de Productos:</h5>
-                                <p id="costoProductos">${{ $totalProductos }}</p>
-                            </div>
-
-                            <div class="total text-end" style="margin-right:5px; margin-top: 5px;">
-                                <h5>Total:</h5>
-                                <p id="total">${{ $total }}</p>
-                            </div>
-
-                            <input type="hidden" name="tipo_envio_seleccionado" id="tipo_envio_seleccionado" value="{{ old('tipo_envio_seleccionado', $costoEnvio) }}">
-                            <input type="hidden" name="costo_envio_seleccionado" id="costo_envio_seleccionado" value="{{ old('costo_envio_seleccionado', $costoEnvio) }}">
-
-                            <div class="d-flex justify-content-end">
-                                <input type="submit" class="enviar-btn btn btn-dark" value="Pagar">
-                            </div>
-
-                        </div>
-                    </form>
-                    @else
-                    <p>No hay productos en el carrito.</p>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+
 <script>
-    function seleccionarSeccion(elemento) {
-        var elementos = document.querySelectorAll('.seccion');
-        elementos.forEach(function(el) {
-            el.classList.remove('seleccionado');
-        });
+    var subtotalVal = {{ $totalProductos }};
 
-        elemento.classList.add('seleccionado');
-
-        var tipoEnvioSeleccionadoElement = document.getElementById('tipo_envio_seleccionado');
-        if (tipoEnvioSeleccionadoElement) {
-            tipoEnvioSeleccionadoElement.value = elemento.getAttribute('data-id');
-        }
-
-        var costoEnvioText = elemento.querySelector('.card-text').innerText;
-
-        var match = costoEnvioText.match(/\d+\.\d+/);
-        var costoEnvio = match ? parseFloat(match[0]) : 0;
-
-        var costoEnvioElement = document.getElementById('costoEnvio');
-        if (costoEnvioElement) {
-            costoEnvioElement.innerText = '$' + costoEnvio.toFixed(2);
-        }
-
-        var costoEnvioSeleccionadoElement = document.getElementById('costo_envio_seleccionado');
-        if (costoEnvioSeleccionadoElement) {
-            costoEnvioSeleccionadoElement.value = costoEnvio;
-        }
-
-        recalcularTotal();
+    function selectShipping(el, id, cost) {
+        document.querySelectorAll('.co-ship-opt').forEach(o => o.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('tipo_envio_seleccionado').value  = id;
+        document.getElementById('costo_envio_seleccionado').value = cost;
+        document.getElementById('costoEnvioDisplay').textContent  = '$' + parseFloat(cost).toFixed(2);
+        document.getElementById('totalDisplay').textContent       = '$' + (subtotalVal + parseFloat(cost)).toFixed(2);
     }
 
-    function recalcularTotal() {
-        var costoProductos = parseFloat(document.getElementById('costoProductos').innerText.match(/\d+/)[0]);
-
-        var costoEnvio = parseFloat(document.getElementById('costo_envio_seleccionado').value);
-
-        var nuevoTotal = costoProductos + costoEnvio;
-
-        document.getElementById('total').innerText = '$' + nuevoTotal;
+    function setDireccion(id) {
+        document.getElementById('direccion_id').value = id;
     }
 </script>
+
 @endsection

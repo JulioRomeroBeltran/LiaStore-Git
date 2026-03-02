@@ -4,12 +4,6 @@
 <div class="container mt-5">
     <h2>Carrito</h2>
 
-    @if(session('success'))
-    <div class="alert alert-success mt-3" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
-
     <table class="table mt-3">
         <thead>
             <tr>

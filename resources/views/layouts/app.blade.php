@@ -136,10 +136,19 @@
             </div>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            function initAppToast() {
                 var el = document.getElementById('appToast');
-                if (el) new bootstrap.Toast(el).show();
-            });
+                if (el && typeof bootstrap !== 'undefined') {
+                    new bootstrap.Toast(el).show();
+                } else if (el) {
+                    setTimeout(initAppToast, 50);
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initAppToast);
+            } else {
+                initAppToast();
+            }
         </script>
         @endif
 
