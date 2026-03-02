@@ -181,7 +181,7 @@
 
 /* ══ PRODUCTS ════════════════════════════════════════════════════════ */
 .ls-products {
-    background: #fff;
+    background: #f7f7f7;
     padding: 56px 48px;
 }
 .ls-products__head {
@@ -376,7 +376,7 @@
 
 /* ══ NEWSLETTER ══════════════════════════════════════════════════════ */
 .ls-newsletter {
-    background: #fff;
+    background: #f7f7f7;
     padding: 72px 60px;
     text-align: center;
     border-top: 1px solid #ebebeb;
