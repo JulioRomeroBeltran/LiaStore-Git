@@ -17,6 +17,18 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        /* Dropdown inside collapsed navbar stays inline on mobile */
+        @media (max-width: 767.98px) {
+            .navbar-nav .dropdown-menu {
+                position: static !important;
+                border: none;
+                box-shadow: none;
+                padding-left: 1rem;
+                background: transparent;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -86,7 +98,7 @@
                                 {{ Auth::user()->name }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-md-end" aria-labelledby="navbarDropdown">
                                 @if(Auth::user()->role === 'admin')
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                     Panel de administracion

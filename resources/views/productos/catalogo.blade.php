@@ -100,7 +100,7 @@
         <div class="col-md-9">
             <div class="row">
                 @forelse ($filteredProducts as $product)
-                <div class="col-md-3 mb-4">
+                <div class="col-6 col-md-3 mb-4">
                     <a href="{{ route('product.show', ['productId' => $product->id]) }}" class="text-decoration-none text-dark">
                         <div class="card h-100 shadow">
                             @if ($product->imagen)
@@ -138,6 +138,13 @@
     function toggleColor(colorSpan) {
         colorSpan.style.filter = colorSpan.style.filter === 'brightness(80%)' ? 'brightness(100%)' : 'brightness(80%)';
     }
+
+    // Auto-apply sorting without needing a button
+    document.getElementById('sorting').addEventListener('change', function() {
+        var url = new URL(window.location.href);
+        url.searchParams.set('sorting', this.value);
+        window.location.href = url.toString();
+    });
 </script>
 
 
