@@ -123,33 +123,23 @@
             </div>
         </nav>
 
-        {{-- Toast notifications --}}
+        {{-- Flash notifications --}}
         @if(session('success') || session('error'))
-        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
-            <div id="appToast" class="toast align-items-center border-0 {{ session('success') ? 'text-bg-dark' : 'text-bg-danger' }}" role="alert" data-bs-autohide="true" data-bs-delay="4000">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('success') ?? session('error') }}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
+        <style>
+            .app-flash {
+                position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+                padding: 14px 20px; border-radius: 6px; font-size: 0.875rem;
+                max-width: 340px; pointer-events: none;
+                animation: flashIn 0.3s ease both, flashOut 0.4s ease 3.8s forwards;
+            }
+            .app-flash--success { background: #111; color: #fff; }
+            .app-flash--error   { background: #dc3545; color: #fff; }
+            @keyframes flashIn  { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+            @keyframes flashOut { from { opacity:1; } to { opacity:0; } }
+        </style>
+        <div class="app-flash {{ session('success') ? 'app-flash--success' : 'app-flash--error' }}">
+            {{ session('success') ?? session('error') }}
         </div>
-        <script>
-            function initAppToast() {
-                var el = document.getElementById('appToast');
-                if (el && typeof bootstrap !== 'undefined') {
-                    new bootstrap.Toast(el).show();
-                } else if (el) {
-                    setTimeout(initAppToast, 50);
-                }
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initAppToast);
-            } else {
-                initAppToast();
-            }
-        </script>
         @endif
 
         <main class="py-4">
