@@ -33,14 +33,14 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm" style="background:#111;">
             <div class="container-fluid px-4">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('logo.png') }}" alt="Lia Store">
+                    <img src="{{ asset('logo.png') }}" alt="Lia Store" style="filter: invert(1);">
                 </a>
 
                 <!-- Cart icon visible on mobile (outside collapse) -->
-                <a href="{{ route('cart.showCart') }}" class="d-md-none ms-auto me-2" style="color: black;">
+                <a href="{{ route('cart.showCart') }}" class="d-md-none ms-auto me-2" style="color: white;">
                     <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
                 </a>
 
@@ -75,7 +75,7 @@
 
                         <!-- Cart icon: desktop only -->
                         <li class="nav-item d-none d-md-flex align-items-center me-2">
-                            <a href="{{ route('cart.showCart') }}" style="color: black;">
+                            <a href="{{ route('cart.showCart') }}" style="color: white;">
                                 <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
                             </a>
                         </li>
